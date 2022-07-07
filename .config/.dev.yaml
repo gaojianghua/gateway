@@ -3,14 +3,14 @@ TEST_VALUE:
 FEISHU_CONFIG:
   FEISHU_URL: https://open.feishu.cn/open-apis
   FEISHU_API_HOST: https://open.feishu.cn
-  FEISHU_APP_ID: cli_a24f6d367738d00c
-  FEISHU_APP_SECRET: Vg8QIE0Ce4t4DnHeUiB0DhwikqQd6qlU
+  FEISHU_APP_ID: cli_a24f513f7f78900d
+  FEISHU_APP_SECRET: byKgAGRcfGg5R52yIS3g4UyNUXjUmwH3
 MONGODB_CONFIG:
   name: "gateway"          # 自定义次数据库链接名称
   type: mongodb                      # 数据库链接类型
-  url: "mongodb://47.96.124.4:27017"   # 数据库链接地址
-  username: "yapipro"                   # 数据库链接用户名
-  password: "yapipro1024"                 # 数据库链接密码
+  url: "mongodb://yapipro:yapipro1024@47.96.124.4:27017/?authSource=admin"   # 数据库链接地址
+  username: "gateway"                   # 数据库链接用户名
+  password: "123456"                 # 数据库链接密码
   database: "gateway"                # 数据库名
   entities: "mongo"                  # 自定义加载类型
   logging: false                     # 数据库打印日志
@@ -25,3 +25,8 @@ MYSQL_CONFIG:
   database: "gateway"
   entities: "mysql" # 这里的命名一定要跟 MongoDB 里面的配置命名区分开
   synchronize: true
+REDIS_CONFIG:
+  host: "47.96.124.4"  # redis 链接
+  port: 6379         # redis 端口
+  auth: "429006"       # redis 连接密码
+  db: 0             # redis 数据库

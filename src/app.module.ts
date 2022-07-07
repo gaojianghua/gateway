@@ -1,9 +1,14 @@
 import { CacheModule, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { getConfig } from '@/utils';
-import { UserModule } from './modules';
-import { FeishuService } from '@/helper/feishu/feishu.service';
-import { FeishuController } from '@/helper/feishu/feishu.controller';
+import { PageModule } from '@/modules/page/page.module';
+import { AuthModule } from './auth/auth.module';
+
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getConfig } from './utils';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import * as redisStore from 'cache-manager-redis-store';
 /**
  * @nestjs/config 默认会从项目根目录载入并解析一个 .env 文件
  * 从 .env 文件和 process.env 合并环境变量键值对
@@ -17,19 +22,28 @@ import { FeishuController } from '@/helper/feishu/feishu.controller';
    * ignoreEnvFile，禁用默认读取 .env 的规则
    */
   imports: [
-    ConfigModule.forRoot({ 
+    CacheModule.register({
+      isGlobal: true,
+      store: redisStore,
+      host: getConfig('REDIS_CONFIG').host,
+      port: getConfig('REDIS_CONFIG').port,
+      auth_pass: getConfig('REDIS_CONFIG').auth,
+      db: getConfig('REDIS_CONFIG').db
+    }),
+    ConfigModule.forRoot({
       ignoreEnvFile: true,
       isGlobal: true,  //全局注册
       load: [getConfig]
     }),
-    CacheModule.register({
-      isGlobal: true,
-    }),
-    UserModule
+    AuthModule,
+    PageModule
   ],
-  controllers: [
-    FeishuController
-  ],
-  providers: [FeishuService],
+  controllers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ]
 })
 export class AppModule { }

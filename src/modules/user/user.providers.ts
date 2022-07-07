@@ -1,4 +1,4 @@
-import { User } from './entities/user.mongo.entity'
+import { User } from './user.mongo.entity';
 
 export const UserProviders = [
   {

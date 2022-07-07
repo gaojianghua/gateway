@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Version } from '@nestjs/common';
+import { Controller, Post, Body, Query, Get } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-// import { ConfigService } from '@nestjs/config';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PayloadUser } from '@/helper';
 
 @ApiTags('用户')
 @Controller('user')
@@ -12,10 +11,11 @@ export class UserController {
   ) { }
 
   @ApiOperation({
-    summary: '新增用户',
+    summary: '用户信息',
   })
-  @Post('/add')
-  create(@Body() user: CreateUserDto) {
-    return this.userService.createOrSave(user);
+  @Post('/profile')
+  profile(@PayloadUser() user: Payload) {
+    return this.userService.profile(user.userId);
   }
+
 }

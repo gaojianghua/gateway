@@ -5,6 +5,7 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, ServiceUnavailableEx
 @Catch()    // 参数为空时，默认捕获所有异常
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
+    console.log(exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<FastifyReply>();
     const request = ctx.getRequest<FastifyRequest>();

@@ -1,15 +1,21 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
 import { DatabaseModule } from '@/common/database/database.module';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
 import { UserProviders } from './user.providers';
+import { FeishuService } from './feishu/feishu.service';
+import { FeishuController } from './feishu/feishu.controller';
+
 
 @Module({
   imports: [
     DatabaseModule
   ],
-  controllers: [UserController],
-  providers: [...UserProviders, UserService],
-  exports: [UserService],
+  controllers: [
+    FeishuController,
+    UserController
+  ],
+  providers: [...UserProviders, UserService, FeishuService],
+  exports: [UserService, FeishuService],
 })
-export class UserModule {}
+export class UserModule { }
