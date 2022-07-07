@@ -1,0 +1,4 @@
+export const BUSINESS_ERROR_CODE = {
+    COMMON: 1001,
+    ACCESS_FORBIDDEN: 1004
+}
